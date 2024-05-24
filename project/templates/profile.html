@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Профиль</h1>
+Имя пользователя: {{ user.username }}
+Электронная почта: {{ user.email }}
+Имя: {{ user.first_name }}
+Фамилия: {{ user.last_name }}
+
+<div>
+    <h3>Балансы</h3>
+    {% if balances %}
+    {% for balance in balances %}
+        <div class="alert alert-info">
+            <h4 class="balance-date" style="cursor: pointer;" onclick="toggleBalanceDetails('balance-{{ balance.id }}')">Дата: {{ balance.date }}</h4>
+            <div id="balance-{{ balance.id }}" class="balance-details" style="display: none;">
+                {% for indicator_value in balance.indicator_values.all %}
+                    <p>{{ indicator_value.indicator.name }}: {{ indicator_value.value }}</p>
+                {% endfor %}
+                <a href=# class="btn btn-primary">Рассчитать</a>
+            </div>
+        </div>
+    {% endfor %}
+    {% else %}
+        <p>У вас пока нет сохраненных балансов!</p>
+    {% endif %}
+</div>
+
+<form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button class="btn btn-outline-danger" type="submit">Выйти из профиля</button>
+</form>
+
+<script>
+function toggleBalanceDetails(balanceId) {
+    var details = document.getElementById(balanceId);
+    if (details.style.display === "none") {
+        details.style.display = "block";
+    } else {
+        details.style.display = "none";
+    }
+}
+</script>
+{% endblock %}

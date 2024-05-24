@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>Отчет по балансу</h1>
+    <h2>Период: {{ balance.date }}</h2>
+
+    <h3>Коэффициенты ликвидности</h3>
+    <table>
+        <tr>
+            <th>Показатель</th>
+            <th>Значение</th>
+        </tr>
+        <tr>
+            <td>Текущая ликвидность</td>
+            <td>{{ current_ratio }}</td>
+        </tr>
+        <tr>
+            <td>Быстрая ликвидность</td>
+            <td>{{ quick_ratio }}</td>
+        </tr>
+        <tr>
+            <td>Абсолютная ликвидность</td>
+            <td>{{ absolute_ratio }}</td>
+        </tr>
+        <tr>
+            <td>Коэффициент автономии</td>
+            <td>{{ autonomy_ratio }}</td>
+        </tr>
+        <tr>
+            <td>Оборачиваемость запасов</td>
+            <td>{{ inventory_turnover }}</td>
+        </tr>
+        <tr>
+            <td>Оборачиваемость дебиторской задолженности</td>
+            <td>{{ receivables_turnover }}</td>
+        </tr>
+    </table>
+
+    <h3>График коэффициентов ликвидности</h3>
+    <img src="data:image/png;base64,{{ chart }}" alt="Chart">
+
+    <h3>Рекомендации</h3>
+    <ul>
+        {% for recommendation in recommendations %}
+            <li>{{ recommendation }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Анализ финансовых показателей</h3>
+    <p>Текущие активы: {{ indicator_1200 }}</p>
+    <p>Текущие обязательства: {{ indicator_1500 }}</p>
+    <p>Денежные средства: {{ indicator_cash }}</p>
+    <p>Быстрые активы: {{ indicator_quick_assets }}</p>
+    <p>Запасы: {{ inventory }}</p>
+    <p>Дебиторская задолженность: {{ receivables }}</p>
+    <p>Собственный капитал: {{ equity }}</p>
+    <p>Общие активы: {{ total_assets }}</p>
+
+    <h3>Значения индикаторов</h3>
+    <ul>
+        {% for iv in balance.indicator_values.all %}
+            <li>{{ iv.indicator.name }}: {{ iv.value }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Прогнозы</h3>
+    <p>Прогноз доходов на следующие 5 периодов: {{ future_revenues }}</p>
+    <p>Прогноз расходов на следующие 5 периодов: {{ future_expenses }}</p>
+    <p>Прогноз прибыли на следующие 5 периодов: {{ future_profits }}</p>
+{% endblock %}

@@ -1,0 +1,29 @@
+@startuml
+class LiquidityCalculator {
++ liquidity(request)
+}
+
+class Profile {
++ profile(request)
+}
+
+class YourView {
+- indicators: Indicator[]
++ your_view(request)
+}
+
+class Register {
+- template_name: str
++ get(request)
++ post(request)
+}
+
+class UserCreationForm
+
+class Indicator {
+- name: str
+- code: str
++ __str__()
+}
+
+@enduml
